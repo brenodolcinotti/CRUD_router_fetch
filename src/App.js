@@ -4,12 +4,12 @@ import "./App.css"
 
 // importação das páginas
 import Login from "./pages/Login/Login";
-import Home from "./pages/Home/Home";
-import Cadastro from "./pages/Cadastro/Cadastro";
-import Lista from "./pages/Lista/Lista";
 
 // importação do NavBar (menu principal)
 import NavBar from "./components/NavBar/NavBar";
+import Cadastro from "./pages/Cadastro/Cadastro";
+import Lista from "./pages/Lista/Lista";
+import Home from "./pages/Home/Home";
 
 function App(){
   // estado global simples para login
@@ -23,51 +23,48 @@ function App(){
     else{
       alert("Usuário ou senha inválidos")
     }
-  };
+  }
 
   // função de Logout
   const handleLogout = () => {
     setIsAuthenticated(false)
-  };
+  }
 
   return(
     <Router>
-      {isAuthenticated && <NavBar onLogout={handleLogout}/>}
+      {isAuthenticated && <NavBar onLogout={handleLogout}></NavBar>}
       <Routes>
-        <Route
-        path = "/login"
-        element = {
-          isAuthenticated ? <Navigate to="/"/> : <Login onLogin = {handleLogin}/>
-        }
-        />
-        
-        <Route
-        path = "/"
-        element = {isAuthenticated ? <Home/> : <Navigate to = "/login"/>}
-        />
+        <Route 
+        path="/login" 
+        element = {isAuthenticated ? <Navigate to="/"/> : <Login onLogin={handleLogin}/>}>
+        </Route>
 
         <Route
-        path = "/cadastro"
-        element = {
-          isAuthenticated ? (<Cadastro contacts = {contacts} setContacts = {setContacts}/>) : (<Navigate to = "/login"/>)
-        }
-        />
+        path="/"
+        element={
+          isAuthenticated ? <Home/> : <Navigate to="/login"/>}>
+        </Route>
 
         <Route
-        path = "/lista"
-        element = {
-          isAuthenticated ? (<Lista contacts = {contacts} setContacts = {setContacts}/>) : (<Navigate to = "/login"/>)
-        }
-        />
+        path="/cadastro"
+        element={
+          isAuthenticated ? (<Cadastro/>) : (<Navigate to="/login"/>)}>
+        </Route>
 
         <Route
-        path = "*"
-        element = {<Navigate to = "/login"/>}
-        />
+        path="/lista"
+        element={
+          isAuthenticated ? (<Lista/>) : (<Navigate to="/login"/>)}>
+        </Route>
+
+        <Route
+        path="*"
+        element={
+          <Navigate to="/login"/>}>
+        </Route>
 
       </Routes>
     </Router>
-  );
+  )
 }
 export default App;
-
